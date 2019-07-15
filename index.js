@@ -1,6 +1,6 @@
 const express = require('express');
 const socketio = require('socket.io');
-const { rollDice } = require('./utils/rollDice')
+const { rollADice } = require('./utils/rollDice');
 let app = express();
 const PORT = 8080;
 
@@ -13,10 +13,11 @@ let server = app.listen(PORT, () => {
 let io = socketio(server);
 
 io.on('connection', function(client) {
-    console.log('a user connected');
+    console.log('a user connected : '+ client.id);
 
     client.on('rool dices', () => {
-
+        let diceScore = rollADice();
+        io.emit('dice score', { diceScore })
     });
 
     client.on('disconnect', function() {

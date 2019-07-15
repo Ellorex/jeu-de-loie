@@ -8,9 +8,8 @@ let rollADice = () => {
         console.log(diceScore);
         dices.push(diceScore);
         score += diceScore;
-
     }
-    return score;
+    return dices;
 }
 
 module.exports = {
