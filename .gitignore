@@ -11,3 +11,6 @@ jspm_packages/
 
 # Optional npm cache directory
 .npm
+
+#Assets output files
+/static/dist/

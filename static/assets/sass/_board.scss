@@ -1,0 +1,20 @@
+.board-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  width: 920px;
+  margin: auto;
+  .board-case {
+    position: relative;
+    width: 50px;
+    flex-basis: 100px;
+    height: 100px;
+    border: 1px solid lightgray;
+    text-align: center;
+    span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+  }
+}
