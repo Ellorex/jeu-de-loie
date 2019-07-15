@@ -1,0 +1,11 @@
+.pawn {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  &#player1 {
+    background-color: red;
+  }
+  &#player2 {
+    background-color: blue;
+  }
+}

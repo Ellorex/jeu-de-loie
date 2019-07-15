@@ -1,13 +1,12 @@
 .board-wrapper {
   display: flex;
   flex-flow: row wrap;
-  width: 920px;
+  width: 740px;
   margin: auto;
   .board-case {
     position: relative;
-    width: 50px;
-    flex-basis: 100px;
-    height: 100px;
+    flex-basis: 80px;
+    height: 80px;
     border: 1px solid lightgray;
     text-align: center;
     span {
