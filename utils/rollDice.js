@@ -10,7 +10,7 @@ let rollADice = () => {
         score += diceScore;
 
     }
-    console.log(score);
+    return score;
 }
 
 module.exports = {
