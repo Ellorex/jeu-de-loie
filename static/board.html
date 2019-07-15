@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="assets/img/goose.png" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="dist/css/main.css">
     <title>Jeu de l'oie</title>
 </head>
@@ -223,21 +223,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 <script>let socket = io();</script>
 <script src="assets/js/board.js"></script>
-
-<script>
-function getNewPosition(dest) {
-    destination = document.getElementById(`case-${dest}`);
-    let destinationTop = destination.offsetTop;
-    let destinationLeft = destination.offsetLeft;
-    position = {
-        parent: destination,
-        top: destinationTop,
-        left: destinationLeft
-    }
-    return position;
-}
-console.log(getNewPosition(57));
-
-</script>
 
 </html>
