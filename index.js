@@ -19,6 +19,7 @@ io.on('connection', function(client) {
     //Rool Dices
     client.on('rool dices', () => {
         let diceScore = rollADice();
+        console.log('diceScore', diceScore)
         io.emit('dice score', { diceScore })
     });
 
