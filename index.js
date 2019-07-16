@@ -25,11 +25,17 @@ io.on('connection', function(client) {
 
     //Player
     client.on('new player', (data) => {
-        console.log(data.player);
-        redisClient.hmset('players', `player-${data.player}`, data.player, redisClient.print);
+        let multi = redisClient.multi();
+
+        /*
+         redisClient.hmset('players', `player-${data.player}`, data.player, redisClient.print);
         redisClient.hgetall('players', (err, result) => {
             console.log(result);
         });
+         */
+
+
+        //redisClient.flushall();
     });
 
     client.on('disconnect', function() {
