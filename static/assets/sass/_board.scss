@@ -15,5 +15,35 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+    &#case-19  {
+      background: url('../../assets/img/hotel.png') no-repeat center center;
+      span {
+        opacity: 0;
+      }
+    }
+    &#case-42 {
+      background: url('../../assets/img/labyrinth.png') no-repeat center center;
+      span {
+        opacity: 0;
+      }
+    }
+    &#case-52 {
+      background: url('../../assets/img/jail.png') no-repeat center center;
+      span {
+        opacity: 0;
+      }
+    }
+    &#case-58 {
+      background: url('../../assets/img/skull.png') no-repeat center center;
+      span {
+        opacity: 0;
+      }
+    }
+    &#case-63 {
+      background: url('../../assets/img/win.png') no-repeat center center;
+      span {
+        opacity: 0;
+      }
+    }
   }
 }

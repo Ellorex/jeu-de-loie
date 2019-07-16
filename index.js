@@ -1,13 +1,10 @@
 const express = require('express');
 const socketio = require('socket.io');
-const router = require('./routes');
-const sockets = require('./sockets/sockets');
 const { rollADice } = require('./utils/rollDice');
 const { redisClient } = require('./db/redis/redis');
 let app = express();
 const PORT = 8080;
 
-app.use('/', router);
 app.use(express.static('static'));
 
 let server = app.listen(PORT, () => {
@@ -19,16 +16,24 @@ let io = socketio(server);
 io.on('connection', function(client) {
     console.log('a user connected : '+ client.id);
 
+    //Rool Dices
+    client.on('rool dices', () => {
+        let diceScore = rollADice();
+        io.emit('dice score', { diceScore })
+    });
+
     //Player
     client.on('new player', (data) => {
-        console.log(data);
         let multi = redisClient.multi();
+
         /*
-            redisClient.hmset('players', `player-${data.player}`, data.player, redisClient.print);
-            redisClient.hgetall('players', (err, result) => {
-                console.log(result);
-            });
+         redisClient.hmset('players', `player-${data.player}`, data.player, redisClient.print);
+        redisClient.hgetall('players', (err, result) => {
+            console.log(result);
+        });
          */
+
+
         //redisClient.flushall();
     });
 
@@ -36,7 +41,3 @@ io.on('connection', function(client) {
         console.log('user disconnected');
     });
 });
-
-
-let jeuDeLoie = io.of('/jeu-de-loie');
-jeuDeLoie.on('connection', sockets.jeuDeLoieNamespace);
