@@ -1,3 +1,5 @@
+let socket = io();
+
 let startGame = document.getElementById('startGame');
 let playerName = document.getElementById('playerName');
 
