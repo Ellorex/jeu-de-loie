@@ -11,14 +11,7 @@ playerName.addEventListener("keyup", () => {
 
 startGame.addEventListener('click', () => {
     let player = playerName.value;
-    if (player != '') {
-        socket.emit('new player', {player})
-    }
-    window.location.href = '/board.html';
-});
+    socket.emit('new player', {player})
 
-/*
-startGame.addEventListener('click', () => {
-
+    // window.location.href = '/jeu-de-loie';
 });
-*/
