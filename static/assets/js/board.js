@@ -4,7 +4,6 @@ let diceResult2 = document.getElementById('diceResult2');
 var player1 = document.getElementById('player1');
 var player2 = document.getElementById('player2');
 var position;
-<<<<<<< HEAD
 var dicesTotal;
 var currentSquare;
 
@@ -15,8 +14,6 @@ function startState() {
     console.log("start")
 }
 window.addEventListener('load', startState(), false);
-=======
->>>>>>> ada9d904242cf962ca97671b77daa1ffb1957741
 
 rollDices.addEventListener('click', () => {
     console.log('Lancer de dé');
