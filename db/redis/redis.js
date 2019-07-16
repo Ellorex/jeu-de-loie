@@ -2,6 +2,7 @@ const redis = require('redis');
 const { spawn } = require('child_process');
 
 spawn('redis-server');
+
 let redisClient = redis.createClient(6379, '127.0.0.1');
 
 redisClient.on('connect', function() {

@@ -4,6 +4,7 @@ let diceResult2 = document.getElementById('diceResult2');
 var player1 = document.getElementById('player1');
 var player2 = document.getElementById('player2');
 var position;
+
 rollDices.addEventListener('click', () => {
     console.log('Lancer de dé');
     socket.emit('rool dices');
