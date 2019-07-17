@@ -14,3 +14,7 @@ jspm_packages/
 
 #Assets output files
 /static/dist/
+
+
+# redis DB
+dump.rdb
