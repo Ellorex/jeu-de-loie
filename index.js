@@ -20,17 +20,22 @@ io.on('connection', function(client) {
 
     //Player
     client.on('new player', (data) => {
-        let multi = redisClient.multi();
+        redisClient.incr('id', function(err, id) {
+            if(id <= 2) {
+                redisClient.zadd('players', id, data.player);
+                redisClient.hmset("player", "id", id, "name", data.player, redisClient.print);
+                redisClient.hgetall("player", (err, player) => {
+                    console.log(player);
+                    io.emit('sign up', {code: 202, message: 'ACCEPT', player: player });
+                    jeuDeLoie.emit('player', {player: player});
+                });
+            } else {
+                console.log('Nombre maximal de joueur atteint');
+                io.emit('sign up', {code: 401, message: 'NOT_AUTHORIZE'});
+            }
 
-        /*
-         redisClient.hmset('players', `player-${data.player}`, data.player, redisClient.print);
-        redisClient.hgetall('players', (err, result) => {
-            console.log(result);
         });
-         */
 
-
-        //redisClient.flushall();
     });
 
     client.on('disconnect', function() {

@@ -10,7 +10,11 @@ var position;
 //SOCKET EVENT
 socket.on('welcome', (data) => {
     console.log(data)
-})
+});
+
+socket.on('player', (player) => {
+    console.log(player);
+});
 
 socket.on('dice score', (data) => {
     let dices = data.diceScore;
@@ -31,4 +35,3 @@ function getNewPosition(dest) {
     player1.style.left = position.left+"px";
 }
 
-console.log(getNewPosition(57));
