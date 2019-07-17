@@ -15,4 +15,4 @@ redisClient.on('error', function (err) {
 
 module.exports = {
     redisClient,
-}
+};
