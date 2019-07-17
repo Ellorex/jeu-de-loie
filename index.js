@@ -15,6 +15,8 @@ let server = app.listen(PORT, () => {
 
 let io = socketio(server);
 
+
+
 io.on('connection', function(client) {
     console.log('a user connected : '+ client.id);
 
@@ -44,3 +46,4 @@ io.on('connection', function(client) {
 
 let jeuDeLoie = io.of('/jeu-de-loie');
 jeuDeLoie.on('connection', sockets.jeuDeLoieNamespace);
+
