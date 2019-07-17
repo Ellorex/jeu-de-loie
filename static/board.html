@@ -210,6 +210,8 @@
                 </div>
             </div>
             <div class="col-3">
+                <div id="player1Name"></div>
+                <div id="player2Name"></div>
                 <button id="rollDices">Lancer les dés</button>
                 <div class="row dice-result-wrapper">
                     <div class="col-6">Dé 1 : <span id="diceResult1"></span></div>
@@ -222,20 +224,4 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 <script src="assets/js/board.js"></script>
-<script>
-    //Des que tu as fini intègre ça au board.js stp
-    socket.on('start game', (data) => {
-        if (data.isOk == false) {
-            alert('En attente d un adversaire');
-            rollDices.style.display = "none"
-        } else {
-            let oneTime = true;
-            if (oneTime) {
-                alert('La partie peut commencer');
-                this.oneTime = false;
-            }
-            rollDices.style.display = "block"
-        }
-    });
-</script>
 </html>

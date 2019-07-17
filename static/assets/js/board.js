@@ -12,10 +12,26 @@ var currentSquare;
 //SOCKET EVENTS
 socket.on('welcome', (data) => {
     console.log(data)
+    getPlayer();
 });
 
 socket.on('player', (player) => {
     console.log(player);
+});
+
+// SEND CLIENT ALERTS ON START EVENTS
+socket.on('start game', (data) => {
+    if (data.isOk == false) {
+        alert('En attente d un adversaire');
+        rollDices.style.display = "none"
+    } else {
+        let oneTime = true;
+        if (oneTime) {
+            alert('La partie peut commencer');
+            this.oneTime = false;
+        }
+        rollDices.style.display = "block"
+    }
 });
 
 // GET DICES SCORES FROM BACKEND
@@ -34,13 +50,16 @@ socket.on('dice score', (data) => {
 function getPlayer() {
     let urlParams = new URLSearchParams(window.location.search);
 
-    return { id: urlParams.get('id'), name: urlParams.get('name') }
+    playerInfo = { id: urlParams.get('id'), name: urlParams.get('name') }
+    displayName(playerInfo)
 }
-console.log(getPlayer());
 
+// DISPLAY PLAYERS NAMES 
+function displayName(player) {
+    document.getElementById(`player${player.id}Name`).innerHTML = player.name;
+}
 //SEND EVENT ON CLICK
 rollDices.addEventListener('click', () => {
-    console.log('Lancer de dé');
     socket.emit('roll dices');
 });
 
@@ -69,6 +88,5 @@ function startState() {
     currentSquare = 1;
     getPosition(player1, currentSquare);
     getPosition(player2, currentSquare);
-    console.log("start")
 }
 window.addEventListener('load', startState(), false);
