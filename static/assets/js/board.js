@@ -8,6 +8,7 @@ var player2 = document.getElementById('player2');
 var position;
 var dicesTotal;
 var currentSquare;
+var firstClick = true;
 
 //SOCKET EVENTS
 socket.on('welcome', (data) => {
@@ -42,7 +43,21 @@ socket.on('dice score', (data) => {
         diceResult1.innerText = dices[0];
         diceResult2.innerText = dices[1];
         dicesTotal = dices[0] + dices[1];
-        addScores(dicesTotal);
+        console.log('first click : ' + firstClick);
+        if (firstClick) {
+            firstClick = false;
+            if (dices[0] === 6 && dices[1] === 3 || dices[0] === 3 && dices[1] === 6) {
+                console.log(" 3 + 6");
+                getPosition(player1, 26);
+            } else if (dices[0] === 4 && dices[1] === 5 || dices[0] === 5 && dices[1] === 4) {
+                console.log("4 + 5")
+                getPosition(player1, 53);
+            } else {
+                addScores(dicesTotal);
+            }
+        } else {
+            addScores(dicesTotal);
+        }
     }
 })
 
@@ -72,6 +87,22 @@ function addScores(dicesResult) {
 // CALCULATE NEW PAWN POSITION
 function getPosition(player, dest) {
     player.style.opacity = 1;
+    switch (dest) {
+        case 6:
+            dest = 9;
+            console.log(dest)
+            break;
+        case 42:
+            dest = 30;
+            console.log(dest)
+            break;
+        case 58:
+            dest = 1;
+            console.log("Back to square 1");
+            break;
+        default:
+            console.log('default')
+    }
     destination = document.getElementById(`case-${dest}`);
     position = destination.getBoundingClientRect();
     if (player === player1) {
