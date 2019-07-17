@@ -35,3 +35,11 @@ function getNewPosition(dest) {
     player1.style.left = position.left+"px";
 }
 
+function getPlayer() {
+    let urlParams = new URLSearchParams(window.location.search);
+
+    return { id: urlParams.get('id'), name: urlParams.get('name')}
+}
+
+console.log(getPlayer());
+

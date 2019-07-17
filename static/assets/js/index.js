@@ -19,7 +19,7 @@ startGame.addEventListener('click', () => {
 socket.on('sign up', (data) => {
     if (data.code == 202) {
         console.log(data);
-        window.location.href = '/jeu-de-loie';
+        window.location.href = `/jeu-de-loie?id=${data.player.id}&name=${data.player.name}`;
     } else if (data.code == 401) {
         alert('Le nombre de joueur maximal a été atteint');
     }

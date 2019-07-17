@@ -27,7 +27,6 @@ io.on('connection', function(client) {
                 redisClient.hgetall("player", (err, player) => {
                     console.log(player);
                     io.emit('sign up', {code: 202, message: 'ACCEPT', player: player });
-                    jeuDeLoie.emit('player', {player: player});
                 });
             } else {
                 console.log('Nombre maximal de joueur atteint');
