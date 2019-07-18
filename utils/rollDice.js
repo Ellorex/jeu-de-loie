@@ -9,6 +9,7 @@ let rollADice = () => {
         dices.push(diceScore);
         score += diceScore;
     }
+
     return dices;
 }
 

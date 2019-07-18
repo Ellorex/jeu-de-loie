@@ -10,6 +10,7 @@ var dicesTotal;
 var currentSquare;
 var firstClick = true;
 
+
 //SOCKET EVENTS
 socket.on('welcome', (data) => {
     displayName(getPlayer());
@@ -90,11 +91,14 @@ socket.on('player move score 2', data => {
     }
 });
 
+socket.on('your turn', player => {
+    console.log(player);
+});
+
 // ADD URL PARAMETERS
 function getPlayer() {
     let urlParams = new URLSearchParams(window.location.search);
-    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name') };
-
+    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name'), isYourTurn: null };
 
     return playerInfo;
 }
@@ -103,11 +107,20 @@ function getPlayer() {
 function displayName(player) {
     document.getElementById(`player${player.id}Name`).innerHTML = player.name;
 }
+
 //SEND EVENT ON CLICK
 rollDices.addEventListener('click', () => {
     socket.emit('roll dices');
+    socket.emit('is your turn', getPlayer());
 });
 
+function isYourTurn() {
+    if (getPlayer().isYourTurn == false) {
+        rollDices.setAttribute('disabled', '')
+    } else {
+        rollDices.removeAttribute('disabled');
+    }
+}
 
 // CALCULATE NEW PAWN POSITION
 function getPosition(player, dest) {
@@ -146,3 +159,9 @@ function startState() {
     getPosition(player2, currentSquare);
 }
 window.addEventListener('load', startState(), false);
+
+function init() {
+
+}
+init();
+
