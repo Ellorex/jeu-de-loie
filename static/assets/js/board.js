@@ -43,25 +43,52 @@ socket.on('dice score', (data) => {
         let dices = data.diceScore;
         diceResult1.innerText = dices[0];
         diceResult2.innerText = dices[1];
-        dicesTotal = dices[0] + dices[1];
-        socket.emit('Send dice score', dicesTotal);
-        console.log('first click : ' + firstClick);
-        if (firstClick) {
-            firstClick = false;
-            if (dices[0] === 6 && dices[1] === 3 || dices[0] === 3 && dices[1] === 6) {
-                console.log(" 3 + 6");
-                getPosition(player1, 26);
-            } else if (dices[0] === 4 && dices[1] === 5 || dices[0] === 5 && dices[1] === 4) {
-                console.log("4 + 5");
-                getPosition(player1, 53);
-            } else {
-                addScores(dicesTotal);
-            }
+        socket.emit('send dice score', { dices: {dice1: dices[0], dice2: dices[1] }, player: getPlayer() }) ;
+    }
+});
+
+socket.on('player move score 1', data => {
+    console.log('move player');
+    console.log(data);
+    dicesTotal = data.dices.dice1 + data.dices.dice2;
+
+    console.log('first click : ' + firstClick);
+    if (firstClick) {
+        firstClick = false;
+        if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
+            console.log(" 3 + 6");
+            getPosition(player1, 26);
+        } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
+            console.log("4 + 5");
+            getPosition(player1, 53);
         } else {
             addScores(dicesTotal);
         }
+    } else {
+        addScores(dicesTotal);
     }
-})
+});
+socket.on('player move score 2', data => {
+    console.log('move player');
+    console.log(data);
+    dicesTotal = data.dices.dice1 + data.dices.dice2;
+
+    console.log('first click : ' + firstClick);
+    if (firstClick) {
+        firstClick = false;
+        if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
+            console.log(" 3 + 6");
+            getPosition(player1, 26);
+        } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
+            console.log("4 + 5");
+            getPosition(player1, 53);
+        } else {
+            addScores(dicesTotal);
+        }
+    } else {
+        addScores(dicesTotal);
+    }
+});
 
 // ADD URL PARAMETERS
 function getPlayer() {

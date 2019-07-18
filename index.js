@@ -1,7 +1,7 @@
 const express = require('express');
+const sockets = require('./sockets/sockets');
 const socketio = require('socket.io');
 const router = require('./routes');
-const sockets = require('./sockets/sockets');
 const { redisClient } = require('./db/redis/redis');
 let app = express();
 const PORT = 8080;
@@ -15,8 +15,6 @@ let server = app.listen(PORT, () => {
 
 let io = socketio(server);
 
-
-
 io.on('connection', function(client) {
     console.log('a user connected : '+ client.id);
 
@@ -27,7 +25,6 @@ io.on('connection', function(client) {
                 redisClient.zadd('players', id, data.player);
                 redisClient.hmset("player", "id", id, "name", data.player, redisClient.print);
                 redisClient.hgetall("player", (err, player) => {
-                    console.log(player);
                     io.emit('sign up', {code: 202, message: 'ACCEPT', player: player });
                 });
             } else {
@@ -45,5 +42,6 @@ io.on('connection', function(client) {
 });
 
 let jeuDeLoie = io.of('/jeu-de-loie');
+
 jeuDeLoie.on('connection', sockets.jeuDeLoieNamespace);
 

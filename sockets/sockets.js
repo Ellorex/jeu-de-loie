@@ -1,5 +1,5 @@
 const { rollADice } = require('../utils/rollDice');
-
+let listPlayer = [];
 let jeuDeLoieNamespace = (socket) => {
     socket.emit('welcome',  'bienvenue');
     console.log('a user connected : ' + socket.id);
@@ -14,7 +14,18 @@ let jeuDeLoieNamespace = (socket) => {
 
     socket.on('roll dices', () => {
        let diceScore = rollADice();
-       socket.emit('dice score', { diceScore })
+       socket.emit('dice score', { diceScore });
+    });
+
+    socket.on('send dice score', data => {
+        //console.log(data);
+        socket.broadcast.emit('player move score 1', { dices: data.dices, player: data.player });
+        socket.emit('player move score 2', { dices: data.dices, player: data.player });
+    });
+
+    socket.on('list player', player => {
+        listPlayer.push(player);
+
     });
 
     socket.on('disconnect', function() {
