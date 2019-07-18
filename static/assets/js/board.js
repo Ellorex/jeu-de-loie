@@ -12,8 +12,9 @@ var firstClick = true;
 
 //SOCKET EVENTS
 socket.on('welcome', (data) => {
-    console.log(data)
-    getPlayer();
+    console.log(data);
+    displayName(getPlayer());
+
 });
 
 socket.on('player', (player) => {
@@ -37,12 +38,13 @@ socket.on('start game', (data) => {
 
 // GET DICES SCORES FROM BACKEND
 socket.on('dice score', (data) => {
-    console.log('Server rolled dices')
+    console.log('Server rolled dices');
     if (data) {
         let dices = data.diceScore;
         diceResult1.innerText = dices[0];
         diceResult2.innerText = dices[1];
         dicesTotal = dices[0] + dices[1];
+        socket.emit('Send dice score', dicesTotal);
         console.log('first click : ' + firstClick);
         if (firstClick) {
             firstClick = false;
@@ -50,7 +52,7 @@ socket.on('dice score', (data) => {
                 console.log(" 3 + 6");
                 getPosition(player1, 26);
             } else if (dices[0] === 4 && dices[1] === 5 || dices[0] === 5 && dices[1] === 4) {
-                console.log("4 + 5")
+                console.log("4 + 5");
                 getPosition(player1, 53);
             } else {
                 addScores(dicesTotal);
@@ -64,12 +66,13 @@ socket.on('dice score', (data) => {
 // ADD URL PARAMETERS
 function getPlayer() {
     let urlParams = new URLSearchParams(window.location.search);
+    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name') };
 
-    playerInfo = { id: urlParams.get('id'), name: urlParams.get('name') }
-    displayName(playerInfo)
+
+    return playerInfo;
 }
 
-// DISPLAY PLAYERS NAMES 
+// DISPLAY PLAYERS NAMES
 function displayName(player) {
     document.getElementById(`player${player.id}Name`).innerHTML = player.name;
 }
