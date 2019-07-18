@@ -7,16 +7,12 @@ var player1 = document.getElementById('player1');
 var player2 = document.getElementById('player2');
 var position;
 var dicesTotal;
-var currentSquare;
 var firstClick = true;
+var currentSquare;
 
 //SOCKET EVENTS
 socket.on('welcome', (data) => {
     displayName(getPlayer());
-});
-
-socket.on('player', (player) => {
-    console.log(player);
 });
 
 // SEND CLIENT ALERTS ON START EVENTS
@@ -36,7 +32,6 @@ socket.on('start game', (data) => {
 
 // GET DICES SCORES FROM BACKEND
 socket.on('dice score', (data) => {
-    console.log('Server rolled dices');
     if (data) {
         let dices = data.diceScore;
         diceResult1.innerText = dices[0];
@@ -45,55 +40,35 @@ socket.on('dice score', (data) => {
     }
 });
 
-socket.on('player move score 1', data => {
-    console.log('move player');
-    console.log(data);
+socket.on('player move score', data => {
     player = document.getElementById(`player${data.player.id}`);
+    // currentSquare = data.player.currentSquare;
     dicesTotal = data.dices.dice1 + data.dices.dice2;
     if (firstClick) {
         firstClick = false;
         if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
-            getPosition(player, 26);
+            data.player.currentSquare = 26;
+            getPosition(player, data.player.currentSquare);
         } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
-            getPosition(player, 53);
+            data.player.currentSquare = 53;
+            getPosition(player, data.player.currentSquare);
         } else {
             dicesResult = data.dices.dice1 + data.dices.dice2;
-            currentSquare += dicesResult;
-            getPosition(player, currentSquare);
+            data.player.currentSquare += dicesResult;
+            getPosition(player, data.player.currentSquare);
         }
     } else {
         dicesResult = data.dices.dice1 + data.dices.dice2;
-        currentSquare += dicesResult;
-        getPosition(player, currentSquare);
+        data.player.currentSquare += dicesResult;
+        getPosition(player, data.player.currentSquare);
     }
 });
 
-socket.on('player move score 2', data => {
-    console.log(data);
-    player = document.getElementById(`player${data.player.id}`);
-    dicesTotal = data.dices.dice1 + data.dices.dice2;
-    if (firstClick) {
-        firstClick = false;
-        if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
-            getPosition(player, 26);
-        } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
-            getPosition(player, 53);
-        } else {
-            dicesResult = data.dices.dice1 + data.dices.dice2;
-            currentSquare += dicesResult;
-            getPosition(player, currentSquare);
-        }
-    } else {
-        dicesResult = data.dices.dice1 + data.dices.dice2;
-        currentSquare += dicesResult;
-        getPosition(player, currentSquare);
-    }
-});
 
 // ADD URL PARAMETERS
 function getPlayer() {
     let urlParams = new URLSearchParams(window.location.search);
-    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name') };
+    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name'), currentSquare: data.player.currentSquare };
 
 
     return playerInfo;
