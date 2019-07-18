@@ -72,7 +72,7 @@ socket.on('your turn', player => {
 // ADD URL PARAMETERS
 function getPlayer() {
     let urlParams = new URLSearchParams(window.location.search);
-    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name'), isYourTurn: null };
+    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name'), isYourTurn: null, currentSquare };
 
     return playerInfo;
 }
