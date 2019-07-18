@@ -21,8 +21,8 @@ let jeuDeLoieNamespace = (socket) => {
 
     socket.on('send dice score', data => {
         //console.log(data);
-        socket.broadcast.emit('player move score 1', { dices: data.dices, player: data.player });
-        socket.emit('player move score 2', { dices: data.dices, player: data.player });
+        socket.broadcast.emit('player move score', { dices: data.dices, player: data.player });
+        socket.emit('player move score', { dices: data.dices, player: data.player });
     });
 
     socket.on('is your turn', player => {
