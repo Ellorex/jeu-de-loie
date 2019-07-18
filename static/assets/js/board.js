@@ -12,9 +12,7 @@ var firstClick = true;
 
 //SOCKET EVENTS
 socket.on('welcome', (data) => {
-    console.log(data);
     displayName(getPlayer());
-
 });
 
 socket.on('player', (player) => {
@@ -43,50 +41,52 @@ socket.on('dice score', (data) => {
         let dices = data.diceScore;
         diceResult1.innerText = dices[0];
         diceResult2.innerText = dices[1];
-        socket.emit('send dice score', { dices: {dice1: dices[0], dice2: dices[1] }, player: getPlayer() }) ;
+        socket.emit('send dice score', { dices: { dice1: dices[0], dice2: dices[1] }, player: getPlayer() });
     }
 });
 
 socket.on('player move score 1', data => {
     console.log('move player');
     console.log(data);
+    player = document.getElementById(`player${data.player.id}`);
     dicesTotal = data.dices.dice1 + data.dices.dice2;
-
-    console.log('first click : ' + firstClick);
     if (firstClick) {
         firstClick = false;
         if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
-            console.log(" 3 + 6");
-            getPosition(player1, 26);
+            getPosition(player, 26);
         } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
-            console.log("4 + 5");
-            getPosition(player1, 53);
+            getPosition(player, 53);
         } else {
-            addScores(dicesTotal);
+            dicesResult = data.dices.dice1 + data.dices.dice2;
+            currentSquare += dicesResult;
+            getPosition(player, currentSquare);
         }
     } else {
-        addScores(dicesTotal);
+        dicesResult = data.dices.dice1 + data.dices.dice2;
+        currentSquare += dicesResult;
+        getPosition(player, currentSquare);
     }
 });
-socket.on('player move score 2', data => {
-    console.log('move player');
-    console.log(data);
-    dicesTotal = data.dices.dice1 + data.dices.dice2;
 
-    console.log('first click : ' + firstClick);
+socket.on('player move score 2', data => {
+    console.log(data);
+    player = document.getElementById(`player${data.player.id}`);
+    dicesTotal = data.dices.dice1 + data.dices.dice2;
     if (firstClick) {
         firstClick = false;
         if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
-            console.log(" 3 + 6");
-            getPosition(player1, 26);
+            getPosition(player, 26);
         } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
-            console.log("4 + 5");
-            getPosition(player1, 53);
+            getPosition(player, 53);
         } else {
-            addScores(dicesTotal);
+            dicesResult = data.dices.dice1 + data.dices.dice2;
+            currentSquare += dicesResult;
+            getPosition(player, currentSquare);
         }
     } else {
-        addScores(dicesTotal);
+        dicesResult = data.dices.dice1 + data.dices.dice2;
+        currentSquare += dicesResult;
+        getPosition(player, currentSquare);
     }
 });
 
@@ -108,11 +108,6 @@ rollDices.addEventListener('click', () => {
     socket.emit('roll dices');
 });
 
-// SUM UP SCORES WITH CURRENT SQUARE
-function addScores(dicesResult) {
-    currentSquare += dicesResult;
-    getPosition(player1, currentSquare);
-}
 
 // CALCULATE NEW PAWN POSITION
 function getPosition(player, dest) {
@@ -120,15 +115,12 @@ function getPosition(player, dest) {
     switch (dest) {
         case 6:
             dest = 9;
-            console.log(dest)
             break;
         case 42:
             dest = 30;
-            console.log(dest)
             break;
         case 58:
             dest = 1;
-            console.log("Back to square 1");
             break;
         default:
             console.log('default')
@@ -141,6 +133,9 @@ function getPosition(player, dest) {
     } else if (player === player2) {
         player.style.top = position.bottom - 20 + "px";
         player.style.left = position.right - 20 + "px";
+    }
+    if(dest === 63) {
+        alert(`La partie est finie`)
     }
 }
 
