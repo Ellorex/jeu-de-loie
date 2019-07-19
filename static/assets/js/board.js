@@ -5,6 +5,7 @@ let diceResult1 = document.getElementById('diceResult1');
 let diceResult2 = document.getElementById('diceResult2');
 var player1 = document.getElementById('player1');
 var player2 = document.getElementById('player2');
+var infoGame = document.getElementById('infoGame');
 var position;
 var dicesTotal;
 var currentSquare;
@@ -41,26 +42,29 @@ socket.on('dice score', (data) => {
 });
 
 socket.on('player move score', data => {
+    infoGame.innerHTML = "";
     player = document.getElementById(`player${data.player.id}`);
-    // currentSquare = data.player.currentSquare;
+    currentSquare = data.player.currentSquare;
     dicesTotal = data.dices.dice1 + data.dices.dice2;
     if (firstClick) {
         firstClick = false;
         if (data.dices.dice1 === 6 && data.dices.dice2 === 3 || data.dices.dice1 === 3 && data.dices.dice2 === 6) {
-            data.player.currentSquare = 26;
-            getPosition(player, data.player.currentSquare);
+            currentSquare = 26;
+            getPosition(player, currentSquare);
+            infoGame.innerHTML = "Vous avez fait 9 avec 6 et 3 au premier tir, vous allez directement en case 26";
         } else if (data.dices.dice1 === 4 && data.dices.dice2 === 5 || data.dices.dice1 === 5 && data.dices.dice2 === 4) {
-            data.player.currentSquare = 53;
-            getPosition(player, data.player.currentSquare);
+            currentSquare = 53;
+            getPosition(player, currentSquare);
+            infoGame.innerHTML = "Vous avez fait 9 avec 4 et 5 au premier tir, vous allez directement en case 53";
         } else {
             dicesResult = data.dices.dice1 + data.dices.dice2;
-            data.player.currentSquare += dicesResult;
-            getPosition(player, data.player.currentSquare);
+            currentSquare += dicesResult;
+            getPosition(player, currentSquare);
         }
     } else {
         dicesResult = data.dices.dice1 + data.dices.dice2;
-        data.player.currentSquare += dicesResult;
-        getPosition(player, data.player.currentSquare);
+        currentSquare += dicesResult;
+        getPosition(player, currentSquare);
     }
 });
 
@@ -72,7 +76,7 @@ socket.on('your turn', player => {
 // ADD URL PARAMETERS
 function getPlayer() {
     let urlParams = new URLSearchParams(window.location.search);
-    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name'), isYourTurn: null, currentSquare };
+    let playerInfo = { id: urlParams.get('id'), name: urlParams.get('name'), isYourTurn: null, currentSquare: currentSquare };
 
     return playerInfo;
 }
@@ -101,12 +105,15 @@ function getPosition(player, dest) {
     switch (dest) {
         case 6:
             dest = 9;
+            infoGame.innerHTML = "Allez directement en case 9";
             break;
         case 42:
             dest = 30;
+            infoGame.innerHTML = "Retournez en case 30";
             break;
         case 58:
             dest = 1;
+            infoGame.innerHTML = "Retour à la case départ";
             break;
         default:
             console.log('default')
