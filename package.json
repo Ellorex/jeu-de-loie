@@ -11,12 +11,12 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
-    "nodemon": "^1.19.1",
-    "sass": "^1.22.4"
+    "nodemon": "^1.19.4",
+    "sass": "^1.25.0"
   },
   "dependencies": {
     "express": "^4.17.1",
     "redis": "^2.8.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.3.0"
   }
 }
